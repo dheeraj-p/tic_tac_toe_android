@@ -23,4 +23,8 @@ public class Player {
     public List<String> getMoves() {
         return moves;
     }
+
+    public boolean hasMoveSet(List<String> moveSet){
+        return this.moves.containsAll(moveSet);
+    }
 }

@@ -1,23 +1,16 @@
 package com.example.tic_tac_toe;
 
 import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     TextView cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9;
-    int count;
     Game game;
     Button playAgain;
     RelativeLayout resultDialog;
@@ -81,18 +74,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cell.setText(symbol);
         cell.setOnClickListener(null);
 
-        Player currentPlayer = this.game.getCurrentPlayer();
-        count++;
-        currentPlayer.makeMove(cellNo);
-        if (this.game.hasWon(currentPlayer)) {
-            endGame(symbol + " has won");
-            return;
+        String message = game.getGameState(cellNo);
+        if(message != "") {
+            endGame(message);
         }
-        if (count == 9) {
-            endGame("Game Draw");
-            return;
-        }
-        this.game.updateCurrentPlayer();
+
     }
 
     private void endGame(String message) {
@@ -153,6 +139,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.game.addPlayer(player1);
         this.game.addPlayer(player2);
         this.game.setCurrentPlayer(player1);
-        this.count = 0;
     }
 }

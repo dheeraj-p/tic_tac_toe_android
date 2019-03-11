@@ -12,6 +12,7 @@ public class Game {
     private List<Player> players;
     private List<List> winningCombinations;
     private Player currentPlayer;
+    private int count;
 
     public Game() {
         this.players = new ArrayList<>(2);
@@ -24,6 +25,7 @@ public class Game {
         winningCombinations.add(Arrays.asList("3", "6", "9"));
         winningCombinations.add(Arrays.asList("1", "5", "9"));
         winningCombinations.add(Arrays.asList("3", "5", "7"));
+        this.count = 0;
     }
 
     public void addPlayer(Player player) {
@@ -32,7 +34,7 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean hasWon(Player player) {
-        return winningCombinations.stream().anyMatch(moveSet -> player.getMoves().containsAll(moveSet));
+        return winningCombinations.stream().anyMatch(player::hasMoveSet);
     }
 
     public Player getCurrentPlayer() {
@@ -46,5 +48,20 @@ public class Game {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateCurrentPlayer() {
         this.currentPlayer = this.players.stream().filter(y -> y != this.currentPlayer).collect(Collectors.toList()).get(0);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public String getGameState(String cellNo) {
+        count++;
+        currentPlayer.makeMove(cellNo);
+        if (this.hasWon(currentPlayer)) {
+            String symbol = currentPlayer.getSymbol();
+            return symbol + " has won";
+        }
+        if (count == 9) {
+            return "Game Draw";
+        }
+        this.updateCurrentPlayer();
+        return "";
     }
 }
