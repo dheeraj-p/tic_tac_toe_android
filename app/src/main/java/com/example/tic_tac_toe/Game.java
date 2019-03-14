@@ -10,38 +10,45 @@ import java.util.stream.Collectors;
 
 public class Game {
     private List<Player> players;
-    private List<List> winningCombinations;
+    public static List<List> WINNING_COMBINATIONS;
     private Player currentPlayer;
     private int count;
 
-    public Game() {
+    //Static block to initialize all winning combinations
+    static {
+        WINNING_COMBINATIONS = new ArrayList<>(8);
+        WINNING_COMBINATIONS.add(Arrays.asList("1", "2", "3"));
+        WINNING_COMBINATIONS.add(Arrays.asList("4", "5", "6"));
+        WINNING_COMBINATIONS.add(Arrays.asList("7", "8", "9"));
+        WINNING_COMBINATIONS.add(Arrays.asList("1", "4", "7"));
+        WINNING_COMBINATIONS.add(Arrays.asList("2", "5", "8"));
+        WINNING_COMBINATIONS.add(Arrays.asList("3", "6", "9"));
+        WINNING_COMBINATIONS.add(Arrays.asList("1", "5", "9"));
+        WINNING_COMBINATIONS.add(Arrays.asList("3", "5", "7"));
+    }
+
+    public Game(Player firstPlayer, Player secondPlayer) {
         this.players = new ArrayList<>(2);
-        winningCombinations = new ArrayList<>(8);
-        winningCombinations.add(Arrays.asList("1", "2", "3"));
-        winningCombinations.add(Arrays.asList("4", "5", "6"));
-        winningCombinations.add(Arrays.asList("7", "8", "9"));
-        winningCombinations.add(Arrays.asList("1", "4", "7"));
-        winningCombinations.add(Arrays.asList("2", "5", "8"));
-        winningCombinations.add(Arrays.asList("3", "6", "9"));
-        winningCombinations.add(Arrays.asList("1", "5", "9"));
-        winningCombinations.add(Arrays.asList("3", "5", "7"));
+        this.addPlayer(firstPlayer);
+        this.addPlayer(secondPlayer);
+        this.setCurrentPlayer(firstPlayer);
         this.count = 0;
     }
 
-    public void addPlayer(Player player) {
+    private void addPlayer(Player player) {
         this.players.add(player);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public boolean hasWon(Player player) {
-        return winningCombinations.stream().anyMatch(player::hasMoveSet);
+        return Game.WINNING_COMBINATIONS.stream().anyMatch(player::hasMoveSet);
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
+    private void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 

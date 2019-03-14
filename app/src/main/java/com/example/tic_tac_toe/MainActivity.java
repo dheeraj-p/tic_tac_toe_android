@@ -20,8 +20,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initializeGame();
-
         playAgain = findViewById(R.id.playAgain);
 
         resultDialog = findViewById(R.id.resultDialog);
@@ -44,25 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         cell9 = findViewById(R.id.cell9);
 
-        cell1.setOnClickListener(this);
 
-        cell2.setOnClickListener(this);
-
-        cell3.setOnClickListener(this);
-
-        cell4.setOnClickListener(this);
-
-        cell5.setOnClickListener(this);
-
-        cell6.setOnClickListener(this);
-
-        cell7.setOnClickListener(this);
-
-        cell8.setOnClickListener(this);
-
-        cell9.setOnClickListener(this);
-
-        playAgain.setOnClickListener(v -> refreshScreen());
+        startNewGame();
+        playAgain.setOnClickListener(v -> startNewGame());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -101,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cell9.setOnClickListener(null);
     }
 
-    private void refreshScreen() {
+    private void startNewGame() {
         this.resultDialog.setVisibility(View.GONE);
 
         cell1.setText("");
@@ -133,11 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initializeGame() {
-        this.game = new Game();
-        Player player1 = new Player("X");
-        Player player2 = new Player("O");
-        this.game.addPlayer(player1);
-        this.game.addPlayer(player2);
-        this.game.setCurrentPlayer(player1);
+        Player player1 = new Player("Player1", "X");
+        Player player2 = new Player("Player2", "O");
+        this.game = new Game(player1, player2);
     }
 }

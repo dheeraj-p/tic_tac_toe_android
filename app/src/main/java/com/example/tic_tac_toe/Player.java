@@ -6,10 +6,12 @@ import java.util.List;
 public class Player {
     private List<String> moves;
     private String symbol;
+    private String name;
 
-    public Player(String symbol) {
+    public Player(String name, String symbol) {
         this.moves = new ArrayList<String>(5);
         this.symbol = symbol;
+        this.name = name;
     }
 
     public void makeMove(String move) {
